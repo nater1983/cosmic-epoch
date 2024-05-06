@@ -25,7 +25,7 @@ build:
     {{ make }} -C cosmic-workspaces-epoch all
     {{ make }} -C xdg-desktop-portal-cosmic all
 
-install rootdir="" prefix="/usr/local": build
+install rootdir="" prefix="/usr": build
     {{ just }} rootdir={{rootdir}} prefix={{prefix}} cosmic-applets/install
     {{ just }} rootdir={{rootdir}} prefix={{prefix}} cosmic-applibrary/install
     {{ just }} rootdir={{rootdir}} prefix={{prefix}} cosmic-bg/install
@@ -53,8 +53,8 @@ _mkdir dir:
 
 sysext dir=(invocation_directory() / "cosmic-sysext") version=("nightly-" + `git rev-parse --short HEAD`): (_mkdir dir) (install dir "/usr")
     #!/usr/bin/env sh
-    mkdir -p {{dir}}/usr/lib/extension-release.d/
-    cat >{{dir}}/usr/lib/extension-release.d/extension-release.cosmic-sysext <<EOF
+    mkdir -p {{dir}}/usr/lib${LIBDIRSUFFIX}/extension-release.d/
+    cat >{{dir}}/usr/lib${LIBDIRSUFFIX}/extension-release.d/extension-release.cosmic-sysext <<EOF
     NAME="Cosmic DE"
     VERSION={{version}}
     $(cat /etc/os-release | grep '^ID=')
